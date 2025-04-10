@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+ 
+    <header>
+<h1>TAREFAS DO DIA</h1>
+</header>
+
+
+   <div class="container"></div>
+<div>
+ <!--<form action="http://localhost:8080/tarefa" method="Post">-->
+    <input type="text" placeholder="Digite a tarefa" id="tarefa" required>
+    
+    <select class="select"  name="" id="categoria">
+        <option value="trabalho">Trabalho</option>
+            <option value="casa">Casa</option>
+        
+    </select>
+</div>
+
+<div class="tarefa">
+    <button onclick="salvarTarefa()">Salvar tarefa</button>
+ <!--</form>   -->
+</div>
+
+<div class="tarefa2">
+
+<ol id="listaDeTarefas">
+</div>
+
+</ol>
+
+<script>
+    const olhtml = document.getElementById("listaDeTarefas")
+
+    
+    async function baixarTarefas() {
+        var tarefas = await fetch("http://localhost:8080/tarefas")
+        var listaDeTarefas = await tarefas.json()
+
+
+olhtml.innerHTML = ""
+  
+listaDeTarefas.forEach((tarefa, index) =>{
+    const li = document.createElement("li")
+    if(tarefa.categoria == "casa") {
+        li.innerHTML = `🏡 <span>${tarefa.tarefa}</span><button  class="excluir" onclick='excluirTarefa(${tarefa.id})'>Excluir</button>`
+    }
+    else if (tarefa.categoria == "trabalho"){
+        li.innerHTML = `💻 <span>${tarefa.tarefa}</span><button  class="excluir" onclick='excluirTarefa(${tarefa.id})'>Excluir</button>`  
+    }
+
+    
+    olhtml.appendChild(li)
+    })
+        // o fetch é uma conexão, uma requisição que pode ser feita a uma URL
+    }
+
+
+  async function salvarTarefa(){
+    let tarefa = document.getElementById("tarefa").value 
+    let categoria = document.getElementById("categoria").value
+    let req = await fetch("http://localhost:8080/tarefa", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tarefa, categoria })
+    })
+    baixarTarefas()
+}
+
+
+
+async function excluirTarefa(index) {
+    let req = await fetch("http://localhost:8080/tarefa/" + index, {method: "DELETE"})
+    baixarTarefas()
+    
+}
+
+
+baixarTarefas()
+
+
+
+</script>
+
+
+
+
+<footer></footer>
+
+
+</body>
+</html>
