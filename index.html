@@ -15,7 +15,7 @@
 
    <div class="container"></div>
 <div>
- <!--<form action="http://localhost:8080/tarefa" method="Post">-->
+ <!--<form action="https://tarefas-n7iz.onrender.com/tarefa" method="Post">-->
     <input type="text" placeholder="Digite a tarefa" id="tarefa" required>
     
     <select class="select"  name="" id="categoria">
@@ -42,7 +42,7 @@
 
     
     async function baixarTarefas() {
-        var tarefas = await fetch("http://localhost:8080/tarefas")
+        var tarefas = await fetch("https://tarefas-n7iz.onrender.com/tarefas")
         var listaDeTarefas = await tarefas.json()
 
 
@@ -67,7 +67,7 @@ listaDeTarefas.forEach((tarefa, index) =>{
   async function salvarTarefa(){
     let tarefa = document.getElementById("tarefa").value 
     let categoria = document.getElementById("categoria").value
-    let req = await fetch("http://localhost:8080/tarefa", {
+    let req = await fetch("https://tarefas-n7iz.onrender.com/tarefa", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ listaDeTarefas.forEach((tarefa, index) =>{
 
 
 async function excluirTarefa(index) {
-    let req = await fetch("http://localhost:8080/tarefa/" + index, {method: "DELETE"})
+    let req = await fetch("https://tarefas-n7iz.onrender.com/tarefa/" + index, {method: "DELETE"})
     baixarTarefas()
     
 }
